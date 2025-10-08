@@ -1,0 +1,29 @@
+services:
+  postgresql:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: orm_user
+      POSTGRES_PASSWORD: ormuser
+      POSTGRES_DB: OrmTraining
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+  pgadmin4:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: orm_user@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: ormuser
+    ports:
+      - "28000:80"
+    depends_on:
+      - postgresql
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - postgres
+volumes:
+  pgadmin_data:
+networks:
+  postgres:
+    driver: bridge
